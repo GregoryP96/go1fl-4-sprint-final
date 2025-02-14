@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"go1fl-4-sprint-final/internal/spentcalories"
 )
 
 var (
@@ -38,4 +40,17 @@ func parsePackage(data string) (int, time.Duration, error) {
 // функция. Если пакет невалидный, storage возвращается без изменений.
 func DayActionInfo(data string, weight, height float64) string {
 	// ваш код ниже
+	numOfSteps, duration, err := parsePackage(data)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	if numOfSteps < 0 {
+		return ""
+	}
+	dist := float64(numOfSteps) * StepLength
+	numOfCalories := spentcalories.WalkingSpentCalories(numOfSteps, weight, height, duration)
+	result := fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n",
+		numOfSteps, dist, numOfCalories)
+	return result
 }
