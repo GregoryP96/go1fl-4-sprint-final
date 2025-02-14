@@ -1,6 +1,9 @@
 package daysteps
 
 import (
+	"fmt"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -10,6 +13,21 @@ var (
 
 func parsePackage(data string) (int, time.Duration, error) {
 	// ваш код ниже
+	arr := strings.Split(data, ",")
+	if len(arr) != 2 {
+		return 0, 0, fmt.Errorf("The length of the slice is not equal to two!")
+	}
+
+	numOfSteps, err := strconv.Atoi(arr[0])
+	if err != nil {
+		return 0, 0, fmt.Errorf("The first value of a slice must be an integer!")
+	}
+
+	duration, err := time.ParseDuration(arr[1])
+	if err != nil {
+		return 0, 0, fmt.Errorf("Invalid duration template!")
+	}
+	return numOfSteps, duration, nil
 }
 
 // DayActionInfo обрабатывает входящий пакет, который передаётся в
