@@ -1,6 +1,9 @@
 package spentcalories
 
 import (
+	"fmt"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -15,6 +18,21 @@ const (
 
 func parseTraining(data string) (int, string, time.Duration, error) {
 	// ваш код ниже
+	arr := strings.Split(data, ",")
+	if len(arr) != 3 {
+		return 0, "", 0, fmt.Errorf("The length of the slice is not equal to three!")
+	}
+
+	numOfSteps, err := strconv.Atoi(arr[0])
+	if err != nil {
+		return 0, "", 0, fmt.Errorf("The first value of a slice must be an integer!")
+	}
+
+	duration, err := time.ParseDuration(arr[2])
+	if err != nil {
+		return 0, "", 0, fmt.Errorf("Invalid duration template!")
+	}
+	return numOfSteps, arr[1], duration, nil
 }
 
 // distance возвращает дистанцию(в километрах), которую преодолел пользователь за время тренировки.
