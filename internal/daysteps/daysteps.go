@@ -14,22 +14,22 @@ var (
 )
 
 func parsePackage(data string) (int, time.Duration, error) {
-	// ваш код ниже
+
 	arr := strings.Split(data, ",")
 	if len(arr) != 2 {
-		return 0, 0, fmt.Errorf("The length of the slice is not equal to two!")
+		return 0, 0, fmt.Errorf("the length of the slice is not equal to two")
 	}
 
-	numOfSteps, err := strconv.Atoi(arr[0])
+	steps, err := strconv.Atoi(arr[0])
 	if err != nil {
-		return 0, 0, fmt.Errorf("The first value of a slice must be an integer!")
+		return 0, 0, fmt.Errorf("the first value of a slice must be an integer")
 	}
 
 	duration, err := time.ParseDuration(arr[1])
 	if err != nil {
-		return 0, 0, fmt.Errorf("Invalid duration template!")
+		return 0, 0, fmt.Errorf("invalid duration template")
 	}
-	return numOfSteps, duration, nil
+	return steps, duration, nil
 }
 
 // DayActionInfo обрабатывает входящий пакет, который передаётся в
@@ -39,18 +39,18 @@ func parsePackage(data string) (int, time.Duration, error) {
 // Если пакет валидный, он добавляется в слайс storage, который возвращает
 // функция. Если пакет невалидный, storage возвращается без изменений.
 func DayActionInfo(data string, weight, height float64) string {
-	// ваш код ниже
-	numOfSteps, duration, err := parsePackage(data)
+
+	steps, duration, err := parsePackage(data)
 	if err != nil {
 		fmt.Println(err)
 		return ""
 	}
-	if numOfSteps < 0 {
+	if steps < 0 {
 		return ""
 	}
-	dist := float64(numOfSteps) * StepLength
-	numOfCalories := spentcalories.WalkingSpentCalories(numOfSteps, weight, height, duration)
+	dist := (float64(steps) * StepLength) / 1000
+	numOfCalories := spentcalories.WalkingSpentCalories(steps, weight, height, duration)
 	result := fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n",
-		numOfSteps, dist, numOfCalories)
+		steps, dist, numOfCalories)
 	return result
 }
