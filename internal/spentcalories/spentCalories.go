@@ -105,5 +105,6 @@ const (
 // height float64 — рост пользователя.
 func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) float64 {
 	// ваш код здесь
-
+	avrSpeed := meanSpeed(steps, duration)
+	return ((walkingCaloriesWeightMultiplier * weight) + (avrSpeed*avrSpeed/height)*walkingSpeedHeightMultiplier) * duration.Hours() * minInH
 }
