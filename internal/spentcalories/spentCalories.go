@@ -85,7 +85,8 @@ const (
 // duration time.Duration — длительность тренировки.
 func RunningSpentCalories(steps int, weight float64, duration time.Duration) float64 {
 	// ваш код здесь
-
+	avrSpeed := meanSpeed(steps, duration)
+	return ((runningCaloriesMeanSpeedMultiplier * avrSpeed) - runningCaloriesMeanSpeedShift) * weight
 }
 
 // Константы для расчета калорий, расходуемых при ходьбе.
