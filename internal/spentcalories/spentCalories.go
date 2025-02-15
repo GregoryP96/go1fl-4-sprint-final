@@ -53,6 +53,11 @@ func distance(steps int) float64 {
 // duration time.Duration — длительность тренировки.
 func meanSpeed(steps int, duration time.Duration) float64 {
 	// ваш код ниже
+	if duration < 0 {
+		return 0
+	}
+	dist := distance(steps)
+	return dist / (duration.Hours())
 }
 
 // ShowTrainingInfo возвращает строку с информацией о тренировке.
