@@ -23,16 +23,22 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, fmt.Errorf("the length of the slice is not equal to three")
 	}
 
-	numOfSteps, err := strconv.Atoi(arr[0])
-	if err != nil {
-		return 0, "", 0, fmt.Errorf("the first value of a slice must be an integer")
+	steps, err := strconv.Atoi(arr[0])
+	if err != nil || steps <= 0 {
+		if err != nil {
+			return 0, "", 0, fmt.Errorf("conversion error: %w", err)
+		}
+		return 0, "", 0, fmt.Errorf("incorrect number of steps")
 	}
 
 	duration, err := time.ParseDuration(arr[2])
-	if err != nil {
-		return 0, "", 0, fmt.Errorf("invalid duration template")
+	if err != nil || duration <= 0 {
+		if err != nil {
+			return 0, "", 0, fmt.Errorf("conversion error: %w", err)
+		}
+		return 0, "", 0, fmt.Errorf("incorrect duration")
 	}
-	return numOfSteps, arr[1], duration, nil
+	return steps, arr[1], duration, nil
 }
 
 // distance возвращает дистанцию(в километрах), которую преодолел пользователь за время тренировки.

@@ -21,13 +21,19 @@ func parsePackage(data string) (int, time.Duration, error) {
 	}
 
 	steps, err := strconv.Atoi(arr[0])
-	if err != nil {
-		return 0, 0, fmt.Errorf("the first value of a slice must be an integer")
+	if err != nil || steps <= 0 {
+		if err != nil {
+			return 0, 0, fmt.Errorf("conversion error: %w", err)
+		}
+		return 0, 0, fmt.Errorf("incorrect number of steps")
 	}
 
 	duration, err := time.ParseDuration(arr[1])
-	if err != nil {
-		return 0, 0, fmt.Errorf("invalid duration template")
+	if err != nil || duration <= 0 {
+		if err != nil {
+			return 0, 0, fmt.Errorf("conversion error: %w", err)
+		}
+		return 0, 0, fmt.Errorf("incorrect duration")
 	}
 	return steps, duration, nil
 }
